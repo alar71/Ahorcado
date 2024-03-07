@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego del Ahorcado</title>
+    <link rel="shortcut icon" href="ahorcado.ico" type="image/x-icon">
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="estilo-ahorcado.css">
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-md bg-light bg-gradient bg-opacity-25 shadow-sm p-1 mb-4 rounded">
+
+            <div class="container-fluid">
+                <a href="mailto:angel.docencia@outlook.es" data-bs-toggle="tooltip"
+                    data-bs-title="Pulsar para enviar un correo al autor"><img
+                        class="imagen img-fluid rounded-circle border border-1 shadow-sm rounded" src="img/email.svg"
+                        alt="angel.docencia@outlook.es"></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span
+                        class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse justify-content-md-center" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item"><a class="nav-link fs-3 fw-semibold" href="#" data-bs-toggle="modal"
+                                data-bs-target="#exampleModal">EMPEZAR</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <div class="modal modal-lg" id="modalAlerta" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">RECORDAR</h5><button type="button" class="btn-close"
+                            data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="alert alert-warning d-flex align-items-center" role="alert">
+                            <div>
+                                <p class="parrafo">
+                                    El archivo se ha guardado en la carpeta de descarga del sistema operativo, recuerda
+                                    ponerla en la carpeta "documentos" del directorio ahorcado para que funcione
+                                    correctamente.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer"><button type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal">Close</button></div>
+                </div>
+            </div>
+        </div>
+        <div class="modal" id="exampleModal" tabindex="-1">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-body position-relative">
+                        <div class="position-absolute top-0 start-0 p-4"> <a href="documentos/ayuda.pdf" target="_blank"
+                                data-bs-toggle="tooltip" data-bs-title="Mostrar ayuda"> <img class="img-fluid"
+                                    src="img/ayuda.svg" alt="icono ayuda"> </a>
+                        </div>
+                        <div class="container mt-5 text-center">
+                            <h1>Configuración del juego del Ahorcado</h1>
+                        </div>
+                        <div class="container mt-4 mb-2 px-5 ">
+                            <div class="border border-1 rounded p-3 mb-1">
+                                <div class="input-group"><input type="file" class="form-control" id="archivoInput"
+                                        aria-describedby="inputGroupFileAddon04" aria-label="Upload"><button
+                                        class="btn btn-success" type="button" id="inputGroupFileAddon04"
+                                        onclick="jugar_ahorcado()">JUGAR</button></div>
+                            </div>
+                            <div class="overflow-y-auto" style="height: 25vh;">
+                                <table class="table table-hover table-striped">
+                                    <thead class="table-dark">
+                                        <tr>
+                                            <th scope="col">palabra</th>
+                                            <th scope="col">ayuda</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="container mb-2 px-5 ">
+                            <div class="mb-1 border border-1 rounded py-2 px-3">
+                                <div class="input-group d-flex justify-content-center my-3"><input type="text"
+                                        class="col-3 me-1 form-control-sm" placeholder="Palabra" aria-label="Palabra"
+                                        aria-describedby="basic-addon1" id="inputPalabra"><input type="text"
+                                        class="col-8 form-control-sm" placeholder="Pista" aria-label="Pista"
+                                        aria-describedby="basic-addon1" id="inputDescripcion"></div>
+                                <div class="d-flex justify-content-center"><button type="button"
+                                        class="btn btn-secondary btn-sm me-4" onclick="agregarElemento()">Nueva
+                                        palabra</button><button type="button" class="btn btn-danger btn-sm"
+                                        onclick="borrarElemento()">borrar palabra</button></div>
+                            </div>
+                        </div>
+                        <div class="container mt-3 px-5">
+                            <div class="border border-1 rounded py-2 px-3">
+                                <div class="input-group d-flex justify-content-center my-3"><button
+                                        class="btn btn-outline-primary" type="button" data-bs-toggle="modal"
+                                        data-bs-target="#modalAlerta" id="button-addon1"
+                                        onclick="grabarCategoria()">GUARDAR</button><input type="text"
+                                        class="form-control" placeholder="nombre del fichero de la categoria"
+                                        aria-label="Example text with button addon" aria-describedby="button-addon1"
+                                        id="nombreFichero"></div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-center mt-5"><button type="button"
+                                class="btn btn-outline-warning btn-lg me-5" onclick="reiniciar()">REINICIAR</button>
+                        </div>
+                    </div>
+                    <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                            id="cierre_modal">Cerrar</button></div>
+                </div>
+            </div>
+        </div>
+        <div class="container mt-5 shadow p-3 mb-5 bg-body-tertiary rounded principal">
+            <div class="row p-2">
+                <div class="col-md-6 p-3 border border-2 rounded">
+                    <h1 class="titulo">Juego del ahorcado</h1>
+                    <h1 id="msg-final"></h1>
+                    <h3 id="acierto"></h3>
+                    <h2 class="palabra" id="palabra"></h2>
+                    <div class="flex-row" id="turnos">
+                        <div class="">
+                            <h3 class="my-3">Intentos restantes: <span id="intentos">6</span></h3>
+                        </div>
+                        <div class="col-12 my-2 d-flex justify-content-center input-group">
+                            <button class="btn btn-lg btn-outline-primary rounded-start" type="button"
+                                onclick="jugar_ahorcado()" id="reset">Elegir otra palabra
+                            </button>
+                            <button class="btn btn-lg btn-outline-success rounded-end" type="button" onclick="pista()"
+                                id="pista">Dame una pista!
+                            </button>
+                            <div class="p-2 col-12 d-flex justify-content-center"><span id="hueco-pista"> </span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="flex-row">
+                        <div class="col-12">
+                            <div class="flex-row" id="abcdario"></div>
+                        </div>
+                        <div class="col"></div>
+                    </div>
+                </div>
+                <div class="col-md-6 d-flex align-items-center justify-content-center">
+                    <picture><img class="imagen img-fluid" src="img/ahorcado_6.png" alt="" id="horca"></picture>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div class="container shadow p-1 rounded  border border-2 rounded p-2 text-center">
+            <a class="link-offset-2 link-underline link-underline-opacity-0 link-opacity-75" href="#"
+                onclick="comoEsta()">
+                <span>&copy</span>
+                Copyright 2024 MIT </a>
+        </div>
+    </footer>
+</body>
+<script src="bootstrap.bundle.min.js"></script>
+<script src="ahorcado.js"></script>
+
+</html>
